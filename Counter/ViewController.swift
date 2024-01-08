@@ -9,18 +9,44 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    // MARK: - IB Outlets
+    @IBOutlet weak private var historyTextView: UITextView!
+    @IBOutlet weak private var counterLabel: UILabel!
+    
+    // MARK: - Private Properties
     private var counter = 0
     
-    @IBOutlet weak var historyTextView: UITextView!
-    @IBOutlet weak var counterLabel: UILabel!
-    
+    // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         historyTextView.text += "\n"
     }
     
-    private func changeCounterLable(with counter: Int) {
+    // MARK: - IB Actions
+    @IBAction private func plusCounterButtonTapped() {
+        counter += 1
+        changeCounterLabel(with: counter)
+        addHistoryMessage(text: "значение изменено на +1")
+    }
+    
+    @IBAction private func minusCounterButtonTapped(_ sender: Any) {
+        if counter > 0 {
+            counter -= 1
+            changeCounterLabel(with: counter)
+            addHistoryMessage(text: "значение изменено на -1")
+        } else {
+            addHistoryMessage(text: "попытка уменьшить значение счётчика ниже 0")
+        }
+    }
+    
+    @IBAction private func zeroCounterButtonTapped(_ sender: Any) {
+        counter = 0
+        changeCounterLabel(with: counter)
+        addHistoryMessage(text: "значение сброшено")
+    }
+    
+    // MARK: - Private Methods
+    private func changeCounterLabel(with counter: Int) {
         counterLabel.text = "Значение счётчика: \(counter)"
     }
     
@@ -34,28 +60,6 @@ class ViewController: UIViewController {
         let dateString = dateFormatter.string(from: currentDate)
         
         historyTextView.text += "[\(dateString)]: \(text)\n"
-    }
-
-    @IBAction func plusCounterButton() {
-        counter += 1
-        changeCounterLable(with: counter)
-        addHistoryMessage(text: "значение изменено на +1")
-    }
-    
-    @IBAction func minusCounterButton(_ sender: Any) {
-        if counter > 0 {
-            counter -= 1
-            changeCounterLable(with: counter)
-            addHistoryMessage(text: "значение изменено на -1")
-        } else {
-            addHistoryMessage(text: "попытка уменьшить значение счётчика ниже 0")
-        }
-    }
-    
-    @IBAction func zeroCounterButton(_ sender: Any) {
-        counter = 0
-        changeCounterLable(with: counter)
-        addHistoryMessage(text: "значение сброшено")
     }
     
     
